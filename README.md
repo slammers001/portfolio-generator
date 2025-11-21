@@ -10,7 +10,9 @@ A simple yet powerful tool to **generate your personalized profile website** in 
 - 🎨 **Modern UI** with theme support  
 
 
-## 🏁 Example
+## 🏁 Beginning
+
+If you are going to want to create multiple portfolios with different styles (there are 12 possibilities) then it would make sense to fork this repo. Because after you generate a portfolio, it saves it in a new folder in the root directory, called for example `slammers001-portfolio`. If you want to have multiple (or try some out) then it would make sense to fork so all your portfolio generations are saved.
 
 
 ## 🛠️ Installation  
@@ -27,6 +29,8 @@ Run the generator with:
 npx ts-node src/generator.ts
 ```
 Follow the prompts to set up your website.
+(After inputting all information, it may take 1-2 minutes to install everything that you will need for your website.
+It's fully normal, and should not take more than 3 minutes max.)
 
 ## 🚀 Usage
 After generation, navigate to your new website folder:
@@ -46,3 +50,4 @@ MIT © slammers001
 
 Made with ❤️ by slammers001 | Generate your own in minutes! ⏱️
 
+### If this project helped you (or if you like it) please leave a ⭐. 
