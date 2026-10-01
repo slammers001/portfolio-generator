@@ -13,9 +13,10 @@ const DEVICE_WIDTH: Record<Device, number> = {
 interface PreviewProps {
   answers: PortfolioAnswers;
   device: Device;
+  folder: string;
 }
 
-export default function Preview({ answers, device }: PreviewProps) {
+export default function Preview({ answers, device, folder }: PreviewProps) {
   const frameRef = useRef<HTMLDivElement | null>(null);
   const innerRef = useRef<HTMLDivElement | null>(null);
   const [scale, setScale] = useState(1);
@@ -47,20 +48,34 @@ export default function Preview({ answers, device }: PreviewProps) {
   }, []);
 
   return (
-    <div className={`preview-frame preview-frame--${device}`} ref={frameRef}>
-      <div className="preview-scaler" style={{ height: contentHeight * scale || undefined }}>
+    <div className={`studio-browser studio-browser--${device}`}>
+      <div className="studio-browser__bar">
+        <span className="studio-browser__dots" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+        </span>
+        <span className="studio-browser__url">{folder}</span>
+      </div>
+
+      <div className="studio-browser__frame" ref={frameRef}>
         <div
-          className="preview-viewport"
-          ref={innerRef}
-          style={
-            {
-              width: contentWidth,
-              transform: `scale(${scale})`,
-              ...themeVars(answers)
-            } as CSSProperties
-          }
+          className="studio-browser__scaler"
+          style={{ height: contentHeight * scale || undefined }}
         >
-          <PortfolioView answers={answers} instant />
+          <div
+            className="studio-browser__viewport"
+            ref={innerRef}
+            style={
+              {
+                width: contentWidth,
+                transform: `scale(${scale})`,
+                ...themeVars(answers)
+              } as CSSProperties
+            }
+          >
+            <PortfolioView answers={answers} instant />
+          </div>
         </div>
       </div>
     </div>
