@@ -131,7 +131,7 @@ export const STYLE_BLURB: Record<(typeof STYLES)[number], string> = {
 };
 
 export const SCHEME_BLURB: Record<(typeof COLOR_SCHEMES)[number], string> = {
-  Dark: 'Slate gradient',
+  Dark: 'Ink on slate',
   Light: 'Paper white',
   Monochrome: 'Greyscale'
 };

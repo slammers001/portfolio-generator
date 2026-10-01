@@ -74,7 +74,7 @@ export default function Preview({ answers, device, folder }: PreviewProps) {
               } as CSSProperties
             }
           >
-            <PortfolioView answers={answers} instant />
+            <PortfolioView answers={answers} />
           </div>
         </div>
       </div>

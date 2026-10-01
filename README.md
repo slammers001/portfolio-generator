@@ -74,10 +74,13 @@ side by side.
 
 | Style | Personality | Colour schemes |
 | --- | --- | --- |
-| Minimalist | System sans, tight radii, restrained greys | Dark · Light · Monochrome |
-| Modern | Inter, 800 headings, soft radii, violet accent | Dark · Light · Monochrome |
-| Creative | Heavy 900 headings, generous radii, pink → orange | Dark · Light · Monochrome |
-| Professional | Serif display face, crisp 4–12px radii, navy accent | Dark · Light · Monochrome |
+| Minimalist | System sans, 600 headings, 4–8px radii, slate accent | Dark · Light · Monochrome |
+| Modern | Inter, 700 headings, 8–16px radii, violet accent | Dark · Light · Monochrome |
+| Creative | Heavy 800 headings, 14–28px radii, magenta accent | Dark · Light · Monochrome |
+| Professional | Serif display face, 2–6px radii, navy accent | Dark · Light · Monochrome |
+
+Every combination is built from solid fills, hairline rules and type — no gradients, no glass,
+no glows. The only thing that changes between them is the palette, the radii and the weights.
 
 ## 🗂️ How it fits together
 
@@ -89,7 +92,6 @@ src/
     themes.ts              4 styles × 3 schemes → CSS custom properties
     generateProject.ts     pure function: answers → { filePath: contents }
     types.ts               question options, defaults, validation
-    random.ts              seeded values, so previews don't reshuffle
   web/                   ← browser UI (form, live preview, zip download)
   cli/                   ← terminal UI (prompts, writes to disk)
 ```
@@ -117,7 +119,7 @@ grace-hopper-portfolio/
     answers.ts           ← your name, skills, languages, links
     theme.css            ← generated: colours, fonts, radii
     portfolio.css        ← shared design system
-    types.ts, random.ts
+    types.ts
 ```
 
 `npm run build` emits static files to `dist/` — host them anywhere. On Vercel use framework

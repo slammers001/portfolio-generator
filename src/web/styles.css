@@ -816,8 +816,7 @@ body {
   line-height: 1.6;
 }
 
-.studio-browser__viewport .nav,
-.studio-browser__viewport .loading {
+.studio-browser__viewport .masthead {
   position: absolute;
 }
 

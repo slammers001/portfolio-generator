@@ -8,8 +8,7 @@ export type AssetReader = (fileName: string) => string;
 export const SHARED_ASSET_TARGETS: Record<string, string> = {
   'PortfolioView.tsx': 'src/App.tsx',
   'portfolio.css': 'src/portfolio.css',
-  'types.ts': 'src/types.ts',
-  'random.ts': 'src/random.ts'
+  'types.ts': 'src/types.ts'
 };
 
 export const SHARED_ASSET_FILES = Object.keys(SHARED_ASSET_TARGETS);
@@ -147,15 +146,11 @@ dist-ssr
 `;
 
 const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#8b5cf6" />
-      <stop offset="100%" stop-color="#a855f7" />
-    </linearGradient>
-  </defs>
-  <rect width="100" height="100" rx="24" fill="url(#g)" />
-  <text x="50" y="68" font-family="Segoe UI, sans-serif" font-size="52" font-weight="700"
-    fill="#ffffff" text-anchor="middle">&lt;/&gt;</text>
+  <rect width="100" height="100" rx="24" fill="#111827" />
+  <path d="M34 34 L22 50 L34 66" fill="none" stroke="#e5e7eb" stroke-width="8"
+    stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M66 34 L78 50 L66 66" fill="none" stroke="#e5e7eb" stroke-width="8"
+    stroke-linecap="round" stroke-linejoin="round" />
 </svg>
 `;
 
