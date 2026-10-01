@@ -1,53 +1,132 @@
-# 🚀 Personal Website Generator  
+# 🚀 Personal Website Generator
 
-A simple yet powerful tool to **generate your personalized profile website** in seconds! ✨  
+Generate a personal portfolio site in **your browser** or **your terminal**, then download a
+Vite + React project you actually own — no lock-in, no black box.
 
-## 🌟 Features  
+Two front ends, one engine:
 
-- ⚡ **Quick setup** – No configuration needed  
-- 🖼️ **Clean & responsive** design  
-- 📝 **Customizable sections** (Bio, Projects, Contact, etc.)  
-- 🎨 **Modern UI** with theme support  
+| | What it does |
+| --- | --- |
+| **Web app** | Fill in the form, watch the site render live, download it as a `.zip` |
+| **CLI** | Same questions in your terminal, writes the project into a new folder |
 
+Both read the same questions and the same templates, so the browser and the terminal can never
+drift apart.
 
-## 🏁 Beginning
+## 🌟 Features
 
-If you are going to want to create multiple portfolios with different styles (there are 12 possibilities) then it would make sense to fork this repo. Because after you generate a portfolio, it saves it in a new folder in the root directory, called for example `slammers001-portfolio`. If you want to have multiple (or try some out) then it would make sense to fork so all your portfolio generations are saved.
+- ⚡ **Instant preview** — every keystroke re-renders the real portfolio component
+- 🎨 **12 themes** — 4 styles × 3 colour schemes
+- 📦 **Real project, not a screenshot** — Vite, React 18, TypeScript, `npm run dev` to start
+- 📱 **Responsive** — the preview has a desktop/mobile toggle
+- ♿ **Accessible** — labels, focus states, `prefers-reduced-motion`, `prefers-contrast`
 
-
-## 🛠️ Installation  
-
-Begin by running in project root:
+## 🚀 Web app
 
 ```bash
 npm install
+npm run dev
 ```
 
-Run the generator with:  
+Then open http://localhost:5173. Fill in the form, switch styles, hit **Download project (.zip)**.
+
+To check the production build:
 
 ```bash
-npx ts-node src/generator.ts
+npm run build     # type-checks, then emits static files to dist/
+npm run preview   # serves dist/ locally
 ```
-Follow the prompts to set up your website.
-(After inputting all information, it may take 1-2 minutes to install everything that you will need for your website.
-It's fully normal, and should not take more than 3 minutes max.)
 
-## 🚀 Usage
-After generation, navigate to your new website folder:
+### Deploying the web app
+
+`vercel.json` is committed, so Vercel picks it up automatically:
+
+```json
+{
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist"
+}
+```
+
+Any other host (Netlify, Cloudflare Pages, GitHub Pages) works too — `dist/` is plain static
+files.
+
+## 🖥️ CLI
 
 ```bash
-cd /path/to/your-website
+npm install
+npm run generate
 ```
-Start the dev server:
+
+Answer ten questions and a folder like `grace-hopper-portfolio/` appears next to you:
 
 ```bash
-npm start
+cd grace-hopper-portfolio
+npm install
+npm run dev
 ```
-Your site will be live at http://localhost:3000 (port may vary if 3000 is already in use).
+
+Generating several portfolios? Fork the repo — each run writes its own folder, so they stack up
+side by side.
+
+## 🎨 The 12 combinations
+
+| Style | Personality | Colour schemes |
+| --- | --- | --- |
+| Minimalist | System sans, tight radii, restrained greys | Dark · Light · Monochrome |
+| Modern | Inter, 800 headings, soft radii, violet accent | Dark · Light · Monochrome |
+| Creative | Heavy 900 headings, generous radii, pink → orange | Dark · Light · Monochrome |
+| Professional | Serif display face, crisp 4–12px radii, navy accent | Dark · Light · Monochrome |
+
+## 🗂️ How it fits together
+
+```
+src/
+  shared/                ← single source of truth, used by both front ends
+    PortfolioView.tsx      the portfolio component + all copy
+    portfolio.css          design system: layout, motion, components
+    themes.ts              4 styles × 3 schemes → CSS custom properties
+    generateProject.ts     pure function: answers → { filePath: contents }
+    types.ts               question options, defaults, validation
+    random.ts              seeded values, so previews don't reshuffle
+  web/                   ← browser UI (form, live preview, zip download)
+  cli/                   ← terminal UI (prompts, writes to disk)
+```
+
+The trick is that `PortfolioView.tsx` and `portfolio.css` are *real files*, not strings inside a
+generator. The browser imports them directly to render the preview; the CLI reads them from disk
+and copies them into your project as `src/App.tsx` and `src/portfolio.css`. There is only one
+copy of the design, so a change shows up in both places immediately.
+
+`portfolio.css` deliberately contains no colours — every value comes from CSS custom properties
+that `themes.ts` emits into a generated `theme.css`. Swapping themes never touches the markup.
+
+## 📦 What you get
+
+```
+grace-hopper-portfolio/
+  index.html
+  package.json           scripts: dev / build / preview
+  vite.config.ts
+  tsconfig.json
+  public/favicon.svg
+  src/
+    main.tsx             mounts <App answers={...} />
+    App.tsx              ← your portfolio: markup and copy
+    answers.ts           ← your name, skills, languages, links
+    theme.css            ← generated: colours, fonts, radii
+    portfolio.css        ← shared design system
+    types.ts, random.ts
+```
+
+`npm run build` emits static files to `dist/` — host them anywhere. On Vercel use framework
+preset **Vite** with output directory **dist**.
 
 ## 📜 License
+
 MIT © slammers001
 
-Made with ❤️ by slammers001 | Generate your own in minutes! ⏱️
+Made with ❤️ by slammers001 — generate your own in minutes! ⏱️
 
-### If this project helped you (or if you like it) please leave a ⭐. 
+If this helped you, please leave a ⭐.
