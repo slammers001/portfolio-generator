@@ -1,0 +1,68 @@
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import PortfolioView from '../shared/PortfolioView';
+import { themeVars } from '../shared/themes';
+import type { PortfolioAnswers } from '../shared/types';
+
+export type Device = 'desktop' | 'mobile';
+
+const DEVICE_WIDTH: Record<Device, number> = {
+  desktop: 1280,
+  mobile: 400
+};
+
+interface PreviewProps {
+  answers: PortfolioAnswers;
+  device: Device;
+}
+
+export default function Preview({ answers, device }: PreviewProps) {
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const innerRef = useRef<HTMLDivElement | null>(null);
+  const [scale, setScale] = useState(1);
+  const [contentHeight, setContentHeight] = useState(0);
+  const contentWidth = DEVICE_WIDTH[device];
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const fit = () => setScale(Math.min(1, frame.clientWidth / contentWidth));
+    fit();
+
+    const observer = new ResizeObserver(fit);
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, [contentWidth]);
+
+  useEffect(() => {
+    const inner = innerRef.current;
+    if (!inner) return;
+
+    const measure = () => setContentHeight(inner.offsetHeight);
+    measure();
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(inner);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className={`preview-frame preview-frame--${device}`} ref={frameRef}>
+      <div className="preview-scaler" style={{ height: contentHeight * scale || undefined }}>
+        <div
+          className="preview-viewport"
+          ref={innerRef}
+          style={
+            {
+              width: contentWidth,
+              transform: `scale(${scale})`,
+              ...themeVars(answers)
+            } as CSSProperties
+          }
+        >
+          <PortfolioView answers={answers} instant />
+        </div>
+      </div>
+    </div>
+  );
+}
