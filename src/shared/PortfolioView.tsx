@@ -12,10 +12,20 @@ export interface PortfolioViewProps {
 }
 
 const SECTIONS = [
-  { id: 'about', index: '01', title: 'About' },
-  { id: 'skills', index: '02', title: 'Skills' },
-  { id: 'languages', index: '03', title: 'Languages' },
-  { id: 'interests', index: '04', title: 'Interests' }
+  { id: 'about', index: '01', title: 'About', note: 'A short version of what I do and how I got here.' },
+  { id: 'skills', index: '02', title: 'Skills', note: 'What I reach for most, from interface work through to deployment.' },
+  {
+    id: 'languages',
+    index: '03',
+    title: 'Languages',
+    note: 'The languages I read and write regularly.'
+  },
+  {
+    id: 'interests',
+    index: '04',
+    title: 'Interests',
+    note: 'Where the curiosity goes when there is no brief attached.'
+  }
 ] as const;
 
 const pad = (value: number) => String(value).padStart(2, '0');
@@ -53,6 +63,7 @@ export default function PortfolioView({ answers }: PortfolioViewProps) {
 
   const { name, title, skills, languages, interests, email, github, linkedin } = answers;
   const firstName = name.trim().split(/\s+/)[0] || 'Portfolio';
+  const initials = initialsOf(name);
   const year = new Date().getFullYear();
 
   return (
@@ -65,7 +76,9 @@ export default function PortfolioView({ answers }: PortfolioViewProps) {
         <div className="masthead__inner shell">
           <a className="wordmark" href="#top">
             {firstName}
+            <span className="wordmark__dot" aria-hidden="true" />
           </a>
+
           <nav className="masthead__nav" aria-label="Sections">
             {SECTIONS.map((section) => (
               <a
@@ -80,25 +93,21 @@ export default function PortfolioView({ answers }: PortfolioViewProps) {
               </a>
             ))}
           </nav>
+
           <a className="masthead__cta" href="#contact">
-            Contact
+            Get in touch
           </a>
         </div>
       </header>
 
       <main id="main">
         <section className="hero">
-          <div className="hero__inner shell">
-            <div className="hero__lead">
-              <p className="eyebrow">
-                <span className="eyebrow__rule" aria-hidden="true" />
-                {title}
-              </p>
-              <h1 className="hero__name">{name}</h1>
-              <p className="hero__summary">
-                I design and build software end to end, from the interface down to the services
-                behind it. Currently focused on {joinNatural(skills.slice(0, 2))}.
-              </p>
+          <div className="shell">
+            <p className="kicker">{title}</p>
+
+            <h1 className="hero__name">{name}</h1>
+
+            <div className="hero__body">
               <div className="hero__actions">
                 <a className="button button--primary" href="#contact">
                   Start a project
@@ -115,156 +124,130 @@ export default function PortfolioView({ answers }: PortfolioViewProps) {
                   </a>
                 )}
               </div>
+
+              <p className="hero__summary">
+                I design and build software end to end, from the interface down to the services
+                behind it. Currently working mostly in {joinNatural(skills.slice(0, 2))}.
+              </p>
             </div>
 
-            <aside className="hero__aside">
-              <div className="portrait">
-                <span className="portrait__initials">{initialsOf(name)}</span>
-                <p className="portrait__status">
+            <dl className="strip">
+              <div className="strip__item">
+                <dt className="strip__label">Languages</dt>
+                <dd className="strip__value">{pad(languages.length)}</dd>
+              </div>
+              <div className="strip__item">
+                <dt className="strip__label">Skills</dt>
+                <dd className="strip__value">{pad(skills.length)}</dd>
+              </div>
+              <div className="strip__item">
+                <dt className="strip__label">Interests</dt>
+                <dd className="strip__value">{pad(interests.length)}</dd>
+              </div>
+              <div className="strip__item">
+                <dt className="strip__label">Status</dt>
+                <dd className="strip__value">
                   <span className="status-dot" aria-hidden="true" />
                   Available for work
-                </p>
+                </dd>
               </div>
-
-              <dl className="facts">
-                <div className="facts__row">
-                  <dt className="facts__label">Languages</dt>
-                  <dd className="facts__value">{pad(languages.length)}</dd>
-                </div>
-                <div className="facts__row">
-                  <dt className="facts__label">Skills</dt>
-                  <dd className="facts__value">{pad(skills.length)}</dd>
-                </div>
-                <div className="facts__row">
-                  <dt className="facts__label">Interests</dt>
-                  <dd className="facts__value">{pad(interests.length)}</dd>
-                </div>
-              </dl>
-            </aside>
+              <div className="strip__item strip__item--mark">
+                <dt className="strip__label">Mark</dt>
+                <dd className="strip__value strip__value--mark">{initials}</dd>
+              </div>
+            </dl>
           </div>
         </section>
 
-        <div className="sections shell">
-          <section id="about" className="section reveal" data-section="about">
-            <div className="section__head">
-              <div className="section__headline">
-                <p className="section__index">01</p>
-                <h2 className="section__title">About</h2>
-              </div>
-              <p className="section__note">
-                A short version of what I do and how I got here.
-              </p>
-            </div>
+        {SECTIONS.map((section) => (
+          <section
+            key={section.id}
+            id={section.id}
+            className="section reveal"
+            data-section={section.id}
+          >
+            <div className="shell">
+              <header className="section__head">
+                <p className="section__index">{section.index}</p>
+                <h2 className="section__title">{section.title}</h2>
+                <p className="section__note">{section.note}</p>
+              </header>
 
-            <div className="section__content">
-              <div className="prose">
-                <p className="prose__lead">
-                  I&apos;m {name}, a {title.toLowerCase()} based on the belief that software
-                  should be understandable six months after it ships.
-                </p>
-                <div className="prose__grid">
-                  <p>
-                    My day-to-day spans {joinNatural(skills.slice(0, 3))}
-                    {skills.length > 3 ? ', plus the tooling that keeps them shipping' : ''}. I
-                    care about the unglamorous parts: clear boundaries, honest estimates and code
-                    the next person can read.
+              {section.id === 'about' && (
+                <div className="prose">
+                  <p className="prose__lede">
+                    I&apos;m {name}, a {title.toLowerCase()} who believes software should still
+                    make sense six months after it ships.
                   </p>
-                  <p>
-                    Outside of client work you&apos;ll find me in
-                    {' '}{joinNatural(interests)}. It keeps me close to the reasons people build
-                    things in the first place.
-                  </p>
+                  <div className="prose__columns">
+                    <p>
+                      My day-to-day spans {joinNatural(skills.slice(0, 3))}
+                      {skills.length > 3 ? ', plus the tooling that keeps them shipping' : ''}. I
+                      care about the unglamorous parts: clear boundaries, honest estimates, and
+                      code the next person can read without a briefing.
+                    </p>
+                    <p>
+                      Outside of client work you&apos;ll usually find me in
+                      {' '}{joinNatural(interests)}. It keeps me close to the reasons people start
+                      building things in the first place.
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {section.id === 'skills' && (
+                <ul className="index">
+                  {skills.map((skill, position) => (
+                    <li key={skill} className="index__row">
+                      <span className="index__num">{pad(position + 1)}</span>
+                      <span className="index__label">{skill}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {section.id === 'languages' && (
+                <ul className="index index--wide">
+                  {languages.map((language, position) => (
+                    <li key={language} className="index__row">
+                      <span className="index__num">{pad(position + 1)}</span>
+                      <span className="index__label">{language}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {section.id === 'interests' && (
+                <ul className="entries">
+                  {interests.map((interest, position) => (
+                    <li key={interest} className="entry">
+                      <span className="entry__num">{pad(position + 1)}</span>
+                      <h3 className="entry__title">{interest}</h3>
+                      <p className="entry__text">{interestDescription(interest)}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </section>
+        ))}
 
-          <section id="skills" className="section reveal" data-section="skills">
-            <div className="section__head">
-              <div className="section__headline">
-                <p className="section__index">02</p>
-                <h2 className="section__title">Skills</h2>
-              </div>
-              <p className="section__note">
-                What I reach for most, from interface work through to deployment.
-              </p>
-            </div>
-
-            <div className="section__content">
-              <ul className="tiles">
-                {skills.map((skill, position) => (
-                  <li key={skill} className="tile">
-                    <span className="tile__index">{pad(position + 1)}</span>
-                    <span className="tile__name">{skill}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
-          <section id="languages" className="section reveal" data-section="languages">
-            <div className="section__head">
-              <div className="section__headline">
-                <p className="section__index">03</p>
-                <h2 className="section__title">Languages</h2>
-              </div>
-              <p className="section__note">
-                The languages I read and write regularly.
-              </p>
-            </div>
-
-            <div className="section__content">
-              <ul className="specs">
-                {languages.map((language) => (
-                  <li key={language} className="specs__item">
-                    {language}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-
-          <section id="interests" className="section reveal" data-section="interests">
-            <div className="section__head">
-              <div className="section__headline">
-                <p className="section__index">04</p>
-                <h2 className="section__title">Interests</h2>
-              </div>
-              <p className="section__note">
-                Where the curiosity goes when there is no brief attached.
-              </p>
-            </div>
-
-            <div className="section__content">
-              <ul className="cards">
-                {interests.map((interest, position) => (
-                  <li key={interest} className="card">
-                    <span className="card__index">{pad(position + 1)}</span>
-                    <h3 className="card__title">{interest}</h3>
-                    <p className="card__text">{interestDescription(interest)}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </section>
-        </div>
-      </main>
-
-      <footer className="footer" id="contact">
-        <div className="footer__inner shell">
-          <div className="footer__cta">
-            <h2 className="footer__heading">
+        <section className="outset">
+          <div className="shell outset__inner">
+            <p className="outset__kicker">Next</p>
+            <h2 className="outset__heading">
               Have something in mind that needs building properly?
             </h2>
-            <div className="footer__actions">
+            <div className="outset__actions">
               {email && (
-                <a className="button button--primary" href={`mailto:${email}`}>
+                <a className="link link--major" href={`mailto:${email}`}>
                   {email}
+                  <span aria-hidden="true">↗</span>
                 </a>
               )}
               {github && (
                 <a
-                  className="button button--quiet"
+                  className="link"
                   href={`https://github.com/${github}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -273,19 +256,9 @@ export default function PortfolioView({ answers }: PortfolioViewProps) {
                   <span aria-hidden="true">↗</span>
                 </a>
               )}
-            </div>
-          </div>
-
-          <div className="footer__base">
-            <div className="footer__who">
-              <p className="footer__name">{name}</p>
-              <p className="footer__role">{title}</p>
-            </div>
-
-            <nav className="footer__links" aria-label="Elsewhere">
               {linkedin && (
                 <a
-                  className="footer__link"
+                  className="link"
                   href={`https://linkedin.com/in/${linkedin}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -294,13 +267,20 @@ export default function PortfolioView({ answers }: PortfolioViewProps) {
                   <span aria-hidden="true">↗</span>
                 </a>
               )}
-              <a className="footer__link" href="#top">
-                Back to top
-              </a>
-            </nav>
-
-            <p className="footer__copy">&copy; {year} {name}</p>
+            </div>
           </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <div className="shell footer__inner">
+          <p className="footer__name">{name}</p>
+          <p className="footer__meta">
+            &copy; {year} · {title}
+          </p>
+          <a className="footer__top" href="#top">
+            Back to top
+          </a>
         </div>
       </footer>
     </div>

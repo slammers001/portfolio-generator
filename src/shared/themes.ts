@@ -2,7 +2,11 @@ import type { ColorScheme, PortfolioAnswers, Style } from './types';
 
 const SANS =
   "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-const SERIF = "Georgia, 'Iowan Old Style', 'Times New Roman', serif";
+/**
+ * Newsreader is the editorial display face for every style. It ships as a variable
+ * font, so weight and optical size come free and there is no second webfont to load.
+ */
+const SERIF = "'Newsreader', Georgia, 'Iowan Old Style', 'Times New Roman', serif";
 const MONO = "'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace";
 
 /**
@@ -47,6 +51,8 @@ interface StyleTokens {
    */
   accentMarkDark: string;
   accentMarkLight: string;
+  /** Creative sets its display type in italic; the others keep it upright. */
+  displayItalic: boolean;
 }
 
 const SCHEMES: Record<ColorScheme, SchemeTokens> = {
@@ -90,67 +96,71 @@ const SCHEMES: Record<ColorScheme, SchemeTokens> = {
 
 const STYLES: Record<Style, StyleTokens> = {
   Minimalist: {
-    fontDisplay: SANS,
+    fontDisplay: SERIF,
     fontBody: SANS,
     fontMono: MONO,
-    headingWeight: 600,
-    trackingDisplay: '-0.02em',
-    radiusSm: '4px',
-    radiusMd: '6px',
-    radiusLg: '8px',
-    accent: '#475569',
-    accentHover: '#334155',
+    headingWeight: 300,
+    trackingDisplay: '-0.01em',
+    radiusSm: '0px',
+    radiusMd: '0px',
+    radiusLg: '0px',
+    accent: '#334155',
+    accentHover: '#1e293b',
     accentMarkDark: '#cbd5e1',
-    accentMarkLight: '#334155'
+    accentMarkLight: '#1e293b',
+    displayItalic: false
   },
   Modern: {
-    fontDisplay: SANS,
+    fontDisplay: SERIF,
     fontBody: SANS,
     fontMono: MONO,
-    headingWeight: 700,
-    trackingDisplay: '-0.03em',
-    radiusSm: '8px',
-    radiusMd: '12px',
-    radiusLg: '16px',
+    headingWeight: 500,
+    trackingDisplay: '-0.025em',
+    radiusSm: '2px',
+    radiusMd: '4px',
+    radiusLg: '6px',
     accent: '#6d28d9',
     accentHover: '#5b21b6',
     accentMarkDark: '#c4b5fd',
-    accentMarkLight: '#5b21b6'
+    accentMarkLight: '#5b21b6',
+    displayItalic: false
   },
   Creative: {
-    fontDisplay: SANS,
+    fontDisplay: SERIF,
     fontBody: SANS,
     fontMono: MONO,
-    headingWeight: 800,
-    trackingDisplay: '-0.04em',
-    radiusSm: '14px',
-    radiusMd: '20px',
-    radiusLg: '28px',
-    accent: '#db2777',
-    accentHover: '#9d174d',
-    accentMarkDark: '#f9a8d4',
-    accentMarkLight: '#9d174d'
+    headingWeight: 600,
+    trackingDisplay: '-0.035em',
+    radiusSm: '4px',
+    radiusMd: '8px',
+    radiusLg: '12px',
+    accent: '#be123c',
+    accentHover: '#9f1239',
+    accentMarkDark: '#fda4af',
+    accentMarkLight: '#9f1239',
+    displayItalic: true
   },
   Professional: {
     fontDisplay: SERIF,
     fontBody: SANS,
     fontMono: MONO,
-    headingWeight: 600,
-    trackingDisplay: '-0.01em',
-    radiusSm: '2px',
-    radiusMd: '4px',
-    radiusLg: '6px',
+    headingWeight: 400,
+    trackingDisplay: '-0.005em',
+    radiusSm: '0px',
+    radiusMd: '2px',
+    radiusLg: '2px',
     accent: '#1e3a8a',
     accentHover: '#172554',
     accentMarkDark: '#bfdbfe',
-    accentMarkLight: '#1e40af'
+    accentMarkLight: '#1e40af',
+    displayItalic: false
   }
 };
 
 const MONOCHROME_ACCENT = '#e5e5e5';
 
 export const FONT_LINKS = [
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap'
+  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200..700;1,6..72,200..600&display=swap'
 ];
 
 /** Every custom property consumed by portfolio.css, resolved for one user. */
@@ -186,6 +196,7 @@ export function themeVars(answers: PortfolioAnswers): Record<string, string> {
     '--font-mono': style.fontMono,
     '--heading-weight': String(style.headingWeight),
     '--tracking-display': style.trackingDisplay,
+    '--display-italic': style.displayItalic ? 'italic' : 'normal',
     '--transition': 'background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease',
     '--transition-slow':
       'opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)'

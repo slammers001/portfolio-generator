@@ -74,13 +74,13 @@ side by side.
 
 | Style | Personality | Colour schemes |
 | --- | --- | --- |
-| Minimalist | System sans, 600 headings, 4–8px radii, slate accent | Dark · Light · Monochrome |
-| Modern | Inter, 700 headings, 8–16px radii, violet accent | Dark · Light · Monochrome |
-| Creative | Heavy 800 headings, 14–28px radii, magenta accent | Dark · Light · Monochrome |
-| Professional | Serif display face, 2–6px radii, navy accent | Dark · Light · Monochrome |
+| Minimalist | Light serif at 300, hairline rules, no radius, slate accent | Dark · Light · Monochrome |
+| Modern | Serif at 500, tight tracking, violet accent | Dark · Light · Monochrome |
+| Creative | Italic serif at 600, soft radius, crimson accent | Dark · Light · Monochrome |
+| Professional | Serif at 400, upright, crisp 2px radius, navy accent | Dark · Light · Monochrome |
 
-Every combination is built from solid fills, hairline rules and type — no gradients, no glass,
-no glows. The only thing that changes between them is the palette, the radii and the weights.
+Every combination is built from flat fills, hairline rules and type — no gradients, no glass,
+no glows. The only things that change are the palette, the serif weight and the radii.
 
 ## 🗂️ How it fits together
 
